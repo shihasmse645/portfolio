@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter Developer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .social-links a:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .experience-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .experience-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item .company {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item .date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .work-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .work-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .work-card-content {
+            padding: 1.5rem;
+        }
+
+        .work-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            animation: slideInDown 0.3s ease;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .screenshot-gallery {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-behavior: smooth;
+        }
+
+        .screenshot-gallery::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .screenshot-gallery::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .screenshot-gallery::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        .screenshot {
+            min-width: 200px;
+            height: 350px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+
+        .project-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-details h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+            
+            .screenshot {
+                min-width: 150px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Muhammed Shihas</h1>
+            <p>Flutter Developer & Mobile App Enthusiast</p>
+        </header>
+
+        <!-- About Me Section -->
+        <section class="section">
+            <h2>About Me</h2>
+            <img src="assets/profile/profile.jpg" alt="Profile Picture" class="profile-img">
+            <p>I'm a passionate Flutter developer with 3+ years of experience creating beautiful, performant mobile applications. I love bringing ideas to life through clean code and intuitive user interfaces. My expertise includes state management, API integration, and creating custom widgets that deliver exceptional user experiences.</p>
+            <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing my knowledge with the developer community.</p>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="section">
+            <h2>Experience</h2>
+            <div class="experience-item">
+                <h3>Senior Flutter Developer</h3>
+                <div class="company">TechCorp Solutions</div>
+                <div class="date">Jan 2023 - Present</div>
+                <p>Lead development of cross-platform mobile applications serving 100K+ users. Implemented complex state management solutions using Bloc pattern and optimized app performance resulting in 40% faster load times.</p>
+            </div>
+            <div class="experience-item">
+                <h3>Flutter Developer</h3>
+                <div class="company">StartupXYZ</div>
+                <div class="date">Jun 2021 - Dec 2022</div>
+                <p>Developed and maintained multiple Flutter applications from concept to deployment. Collaborated with UI/UX designers to implement pixel-perfect designs and integrated various third-party APIs.</p>
+            </div>
+            <div class="experience-item">
+                <h3>Junior Mobile Developer</h3>
+                <div class="company">DevStudio Inc</div>
+                <div class="date">Mar 2020 - May 2021</div>
+                <p>Started my journey in mobile development, focusing on Flutter framework. Built several proof-of-concept applications and learned best practices for mobile app architecture.</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section">
+            <h2>My Work</h2>
+            <div class="gallery">
+                <div class="work-card" onclick="openModal('ecommerce')">
+                    <img src="assets/projects/ecommerce/thumbnail.jpg" alt="E-commerce App">
+                    <div class="work-card-content">
+                        <h3>E-commerce Mobile App</h3>
+                        <p>A full-featured shopping app with payment integration, user authentication, and real-time order tracking.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Stripe</span>
+                            <span class="tech-tag">Bloc</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" onclick="openModal('fitness')">
+                    <img src="assets/projects/fitness/thumbnail.jpg" alt="Fitness Tracker">
+                    <div class="work-card-content">
+                        <h3>Fitness Tracker</h3>
+                        <p>A comprehensive fitness app with workout plans, progress tracking, and social features for motivation.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Charts</span>
+                            <span class="tech-tag">Provider</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" onclick="openModal('weather')">
+                    <img src="assets/projects/weather/thumbnail.jpg" alt="Weather App">
+                    <div class="work-card-content">
+                        <h3>Weather Forecast App</h3>
+                        <p>Beautiful weather app with location-based forecasts, interactive maps, and customizable widgets.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">OpenWeather API</span>
+                            <span class="tech-tag">Riverpod</span>
+                            <span class="tech-tag">Animations</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" onclick="openModal('chat')">
+                    <img src="assets/projects/chat/thumbnail.jpg" alt="Chat App">
+                    <div class="work-card-content">
+                        <h3>Real-time Chat App</h3>
+                        <p>Secure messaging app with end-to-end encryption, group chats, and multimedia sharing capabilities.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Socket.IO</span>
+                            <span class="tech-tag">Encryption</span>
+                            <span class="tech-tag">GetX</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" onclick="openModal('todo')">
+                    <img src="assets/projects/todo/thumbnail.jpg" alt="Task Manager">
+                    <div class="work-card-content">
+                        <h3>Task Management App</h3>
+                        <p>Productivity app with project organization, team collaboration, and advanced scheduling features.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Hive</span>
+                            <span class="tech-tag">Notifications</span>
+                            <span class="tech-tag">Cubit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" onclick="openModal('recipe')">
+                    <img src="assets/projects/recipe/thumbnail.jpg" alt="Recipe App">
+                    <div class="work-card-content">
+                        <h3>Recipe Discovery App</h3>
+                        <p>Culinary app with recipe search, meal planning, shopping lists, and cooking timer features.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Spoonacular API</span>
+                            <span class="tech-tag">SharedPreferences</span>
+                            <span class="tech-tag">Provider</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section">
+            <h2>Get In Touch</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">I'm always open to discussing new opportunities and exciting projects. Let's connect!</p>
+            
+            <div class="social-links">
+                <a href="https://github.com/shihasmse645" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/shihasms/" target="_blank">LinkedIn</a>
+                <!-- <a href="https://twitter.com/yourusername" target="_blank">Twitter</a> -->
+                <a href="muhammedshihase@gmail.com">Email</a>
+            </div>
+
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Modal for Project Details -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Project Title</h3>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="project-details">
+                    <h4>Project Description</h4>
+                    <p id="modalDescription">Project description will appear here...</p>
+                    
+                    <h4>Technologies Used</h4>
+                    <div id="modalTechTags"></div>
+                    
+                    <h4>Key Features</h4>
+                    <ul id="modalFeatures"></ul>
+                </div>
+                
+                <h4>Screenshots</h4>
+                <div class="screenshot-gallery" id="screenshotGallery">
+                    <!-- Screenshots will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data
+        const projects = {
+            ecommerce: {
+                title: "E-commerce Mobile App",
+                description: "A comprehensive shopping application built with Flutter, featuring a modern UI, secure payment processing, and real-time order tracking. The app includes user authentication, product catalog, shopping cart, and admin panel.",
+                techTags: ["Flutter", "Firebase", "Stripe", "Bloc", "Cloud Firestore"],
+                features: [
+                    "User registration and authentication",
+                    "Product browsing with search and filters",
+                    "Shopping cart and wishlist functionality",
+                    "Secure payment processing with Stripe",
+                    "Order tracking and history",
+                    "Push notifications for order updates",
+                    "Admin panel for inventory management"
+                ],
+                screenshots: [
+                    "assets/projects/ecommerce/screenshot1.jpg",
+                    "assets/projects/ecommerce/screenshot2.jpg",
+                    "assets/projects/ecommerce/screenshot3.jpg",
+                    "assets/projects/ecommerce/screenshot4.jpg",
+                    "assets/projects/ecommerce/screenshot5.jpg"
+                ]
+            },
+            fitness: {
+                title: "Fitness Tracker",
+                description: "A comprehensive fitness application that helps users track their workouts, monitor progress, and stay motivated. Features include custom workout plans, progress analytics, and social sharing capabilities.",
+                techTags: ["Flutter", "SQLite", "Charts", "Provider", "Health Kit"],
+                features: [
+                    "Custom workout plan creation",
+                    "Exercise library with animations",
+                    "Progress tracking with detailed analytics",
+                    "BMI and body composition calculator",
+                    "Social features and challenges",
+                    "Integration with health apps",
+                    "Offline workout capability"
+                ],
+                screenshots: [
+                    "assets/projects/fitness/screenshot1.jpg",
+                    "assets/projects/fitness/screenshot2.jpg",
+                    "assets/projects/fitness/screenshot3.jpg",
+                    "assets/projects/fitness/screenshot4.jpg"
+                ]
+            },
+            weather: {
+                title: "Weather Forecast App",
+                description: "A beautiful and intuitive weather application providing accurate forecasts, interactive maps, and personalized weather insights. Features location-based weather updates and customizable widgets.",
+                techTags: ["Flutter", "OpenWeather API", "Riverpod", "Animations", "Geolocator"],
+                features: [
+                    "Current weather conditions",
+                    "7-day weather forecast",
+                    "Hourly weather updates",
+                    "Interactive weather maps",
+                    "Location-based automatic updates",
+                    "Customizable home screen widgets",
+                    "Weather alerts and notifications"
+                ],
+                screenshots: [
+                    "assets/projects/weather/screenshot1.jpg",
+                    "assets/projects/weather/screenshot2.jpg",
+                    "assets/projects/weather/screenshot3.jpg",
+                    "assets/projects/weather/screenshot4.jpg",
+                    "assets/projects/weather/screenshot5.jpg"
+                ]
+            },
+            chat: {
+                title: "Real-time Chat App",
+                description: "A secure messaging application with end-to-end encryption, supporting individual and group conversations. Features include multimedia sharing, message reactions, and advanced privacy controls.",
+                techTags: ["Flutter", "Socket.IO", "Encryption", "GetX", "Node.js"],
+                features: [
+                    "Real-time messaging",
+                    "End-to-end encryption",
+                    "Group chat functionality",
+                    "Multimedia file sharing",
+                    "Message reactions and replies",
+                    "Online/offline status indicators",
+                    "Message search and archiving"
+                ],
+                screenshots: [
+                    "assets/projects/chat/screenshot1.jpg",
+                    "assets/projects/chat/screenshot2.jpg",
+                    "assets/projects/chat/screenshot3.jpg",
+                    "assets/projects/chat/screenshot4.jpg"
+                ]
+            },
+            todo: {
+                title: "Task Management App",
+                description: "A powerful productivity application for managing tasks, projects, and team collaboration. Features advanced scheduling, priority management, and progress tracking capabilities.",
+                techTags: ["Flutter", "Hive", "Notifications", "Cubit", "Calendar"],
+                features: [
+                    "Task creation and organization",
+                    "Project-based task grouping",
+                    "Priority and deadline management",
+                    "Team collaboration features",
+                    "Progress tracking and analytics",
+                    "Recurring task scheduling",
+                    "Offline functionality with sync"
+                ],
+                screenshots: [
+                    "assets/projects/todo/screenshot1.jpg",
+                    "assets/projects/todo/screenshot2.jpg",
+                    "assets/projects/todo/screenshot3.jpg",
+                    "assets/projects/todo/screenshot4.jpg",
+                    "assets/projects/todo/screenshot5.jpg"
+                ]
+            },
+            recipe: {
+                title: "Recipe Discovery App",
+                description: "A culinary companion app that helps users discover new recipes, plan meals, and create shopping lists. Features include recipe search, cooking timers, and nutritional information.",
+                techTags: ["Flutter", "Spoonacular API", "SharedPreferences", "Provider", "Camera"],
+                features: [
+                    "Recipe search and discovery",
+                    "Meal planning and calendar",
+                    "Automatic shopping list generation",
+                    "Cooking timers and step-by-step guides",
+                    "Nutritional information tracking",
+                    "Recipe photo capture and sharing",
+                    "Favorite recipes collection"
+                ],
+                screenshots: [
+                    "assets/projects/recipe/screenshot1.jpg",
+                    "assets/projects/recipe/screenshot2.jpg",
+                    "assets/projects/recipe/screenshot3.jpg",
+                    "assets/projects/recipe/screenshot4.jpg"
+                ]
+            }
+        };
+
+        function openModal(projectId) {
+            const project = projects[projectId];
+            const modal = document.getElementById('projectModal');
+            
+            // Populate modal content
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalDescription').textContent = project.description;
+            
+            // Populate tech tags
+            const techTagsContainer = document.getElementById('modalTechTags');
+            techTagsContainer.innerHTML = '';
+            project.techTags.forEach(tech => {
+                const tag = document.createElement('span');
+                tag.className = 'tech-tag';
+                tag.textContent = tech;
+                techTagsContainer.appendChild(tag);
+            });
+            
+            // Populate features
+            const featuresList = document.getElementById('modalFeatures');
+            featuresList.innerHTML = '';
+            project.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+            
+            // Populate screenshots
+            const gallery = document.getElementById('screenshotGallery');
+            gallery.innerHTML = '';
+            project.screenshots.forEach(screenshot => {
+                const img = document.createElement('img');
+                img.src = screenshot;
+                img.alt = 'Project Screenshot';
+                img.className = 'screenshot';
+                gallery.appendChild(img);
+            });
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Handle form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I\'ll get back to you soon.');
+            this.reset();
+        });
+
+        // Add smooth scrolling for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
