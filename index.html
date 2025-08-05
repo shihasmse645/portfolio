@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muhammed Shihas</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        color: white;
+        padding: 2rem 0;
+      }
+
+      header h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        animation: fadeInUp 1s ease;
+      }
+
+      header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease 0.2s both;
+      }
+
+      .section {
+        background: white;
+        margin: 2rem 0;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 1s ease;
+      }
+
+      .section h2 {
+        color: #667eea;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 0.5rem;
+      }
+
+      .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        display: block;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        object-fit: cover;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .social-links a {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .social-links a:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .experience-item {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+      }
+
+      .experience-item h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .experience-item .company {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 0.5rem;
+      }
+
+      .experience-item .date {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .work-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .work-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .work-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .work-card-content {
+        padding: 1.5rem;
+      }
+
+      .work-card h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .work-card p {
+        color: #666;
+        margin-bottom: 1rem;
+      }
+
+      .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .tech-tag {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-content {
+        position: relative;
+        background-color: white;
+        margin: 5% auto;
+        padding: 0;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow: hidden;
+        animation: slideInDown 0.3s ease;
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .close {
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: none;
+        border: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .close:hover {
+        opacity: 0.7;
+      }
+
+      .modal-body {
+        padding: 2rem;
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      .screenshot-gallery {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        padding: 1rem 0;
+        scroll-behavior: smooth;
+      }
+
+      .screenshot-gallery::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .screenshot-gallery::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      .screenshot-gallery::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 4px;
+      }
+
+      .screenshot {
+        min-width: 200px;
+        height: 350px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .screenshot:hover {
+        transform: scale(1.05);
+      }
+
+      .project-details {
+        margin-bottom: 1.5rem;
+      }
+
+      .project-details h4 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #555;
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .form-group textarea {
+        height: 120px;
+        resize: vertical;
+      }
+
+      .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInDown {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        header h1 {
+          font-size: 2rem;
+        }
+
+        .section {
+          padding: 1.5rem;
+          margin: 1rem 0;
+        }
+
+        .social-links {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-content {
+          width: 95%;
+          margin: 10% auto;
+        }
+
+        .screenshot {
+          min-width: 150px;
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>SHIHAS</h1>
+        <p>Flutter Developer & Mobile App Enthusiast</p>
+      </header>
+
+      <!-- About Me Section -->
+      <section class="section">
+        <h2>About Me</h2>
+        <img
+          src="assets/profile/profile.jpg"
+          alt="Profile Picture"
+          class="profile-img"
+        />
+        <p>
+          A highly motivated Flutter Developer with 1.5 years of hands-on
+          experience in building responsive, high performance mobile
+          applications. Proficient in Flutter SDK, Firebase integration, and
+          advanced state management techniques using GetX and Provider. Adept at
+          delivering user-centric solutions with clean and maintainable code.
+          Also skilled in web technologies including HTML, CSS, JavaScript, and
+          Vue.js, enabling a well-rounded approach to cross-platform and
+          web-based development. Passionate about continuous learning and
+          delivering quality products that align with business goals.
+        </p>
+        <p>
+          When I'm not coding, you can find me exploring new technologies,
+          contributing to open-source projects, or sharing my knowledge with the
+          developer community.
+        </p>
+      </section>
+
+      <!-- Experience Section -->
+      <section class="section">
+        <h2>Experience</h2>
+        <div class="experience-item">
+          <h3>Mobile App/Web Developer</h3>
+          <div class="company">AssetsTech Softwares-UAE</div>
+          <div class="date">Jan 2025 - Present</div>
+          <p>
+            I designed and developed user-friendly cross-platform mobile
+            applications using Flutter for both iOS and Android platforms. I
+            collaborated closely with cross-functional teams, including product
+            managers and backend developers, to deliver feature-rich apps on
+            time. Additionally, I contributed to the development of a web-based
+            application using Vue.js, focusing on creating a responsive UI and
+            providing a smooth user experience. I also implemented and
+            maintained backend functionalities using Laravel, enabling robust
+            API integrations and efficient data handling.
+          </p>
+        </div>
+        <div class="experience-item">
+          <h3>Flutter Developer</h3>
+          <div class="company">Glowsis Technologies PVT LTD</div>
+          <div class="date">Aug 2023 - Aug 2024</div>
+          <p>
+            I designed and developed user-friendly mobile applications using
+            Flutter for both iOS and Android platforms. I collaborated with
+            cross-functional teams, including product managers and backend
+            developers, to deliver feature-rich apps on time. I maintained
+            mobile applications with the latest packages, integrating RESTful
+            APIs and third-party services to ensure seamless data exchange and
+            functionality. I have successfully handled multiple projects from
+            development to deployment.
+          </p>
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <section class="section">
+        <h2>My Work</h2>
+        <div class="gallery">
+          <div class="work-card" onclick="openModal('ecommerce')">
+            <img
+              src="assets/projects/ecommerce/thumbnail.jpg"
+              alt="E-commerce App"
+            />
+            <div class="work-card-content">
+              <h3>E-commerce</h3>
+              <p>
+                A full-featured shopping app with payment integration, user
+                authentication, and real-time order tracking.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Firebase</span>
+                <span class="tech-tag">Stripe</span>
+                <span class="tech-tag">Bloc</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-card" onclick="openModal('scantoeat')">
+            <img src="assets/projects/fitness/thumbnail.jpg" alt="ScanToEat" />
+            <div class="work-card-content">
+              <h3>ScanToEat</h3>
+              <p>
+                A user-friendly food ordering app with digital menus, real-time
+                order tracking, and multiple ordering options for a seamless
+                dining experience.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Push Notifications</span>
+                <span class="tech-tag">Charts</span>
+                <span class="tech-tag">GPS</span>
+                <span class="tech-tag">Firebase</span>
+                <span class="tech-tag">Printing</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-card" onclick="openModal('hrflowpro')">
+            <img src="assets/projects/weather/thumbnail.jpg" alt="HrFlowPro" />
+            <div class="work-card-content">
+              <h3>HrFlowPro</h3>
+              <p>
+                An HR management app with check-in/out, leave requests,
+                attendance tracking, and real-time communication.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Firebase</span>
+                <span class="tech-tag">Provider</span>
+                <span class="tech-tag">Geolocator</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-card" onclick="openModal('aircraftstatus')">
+            <img
+              src="assets/projects/chat/thumbnail.jpg"
+              alt="Aircraft Status"
+            />
+            <div class="work-card-content">
+              <h3>Aircraft Status</h3>
+              <p>
+                An aviation training app providing engineers with quick
+                references to ATA chapters, CB locations, and warning reset
+                procedures for multiple aircraft types.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Firebase</span>
+                <span class="tech-tag">Notifications</span>
+
+                <span class="tech-tag">GetX</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-card" onclick="openModal('cockpit')">
+            <img
+              src="assets/projects/todo/thumbnail.jpg"
+              alt="Aircraft Cockpit"
+            />
+            <div class="work-card-content">
+              <h3>Aircraft Cockpit</h3>
+              <p>
+                An educational aviation app offering detailed cockpit insights
+                and interactive learning for Airbus and Boeing aircraft models.
+              </p>
+              <div class="tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Getx</span>
+                <span class="tech-tag">Notifications</span>
+                <span class="tech-tag">Firebase</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="section">
+        <h2>Get In Touch</h2>
+        <p style="text-align: center; margin-bottom: 2rem">
+          I'm always open to discussing new opportunities and exciting projects.
+          Let's connect!
+        </p>
+
+        <div class="social-links">
+          <a href="https://github.com/shihasmse645" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/shihasms/" target="_blank"
+            >LinkedIn</a
+          >
+          <!-- <a href="https://twitter.com/yourusername" target="_blank">Twitter</a> -->
+          <a href="muhammedshihase@gmail.com">Email</a>
+        </div>
+
+        <form class="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+      </section>
+    </div>
+
+    <!-- Modal for Project Details -->
+    <div id="projectModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Project Title</h3>
+          <button class="close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="project-details">
+            <h4>Project Description</h4>
+            <p id="modalDescription">Project description will appear here...</p>
+
+            <h4>Technologies Used</h4>
+            <div id="modalTechTags"></div>
+
+            <h4>Key Features</h4>
+            <ul id="modalFeatures"></ul>
+          </div>
+
+          <h4>Screenshots</h4>
+          <div class="screenshot-gallery" id="screenshotGallery">
+            <!-- Screenshots will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Project data
+      const projects = {
+        ecommerce: {
+          title: "E-commerce Mobile App",
+          description:
+            "A comprehensive shopping application built with Flutter, featuring a modern UI, secure payment processing, and real-time order tracking. The app includes user authentication, product catalog, shopping cart, and admin panel.",
+          techTags: ["Flutter", "Firebase", "RazorPay"],
+          features: [
+            "User registration and authentication",
+            "Product browsing with search and filters",
+            "Shopping cart and wishlist functionality",
+            "Secure payment processing with Razorpay",
+            "Order tracking and history",
+          ],
+          screenshots: [
+            "assets/projects/ecommerce/screenshot1.jpg",
+            "assets/projects/ecommerce/screenshot2.jpg",
+            "assets/projects/ecommerce/screenshot3.jpg",
+            "assets/projects/ecommerce/screenshot4.jpg",
+          ],
+        },
+        scantoeat: {
+          title: "ScanToEat",
+          description:
+            "Food delivery application designed to enhance convenience and streamline the food ordering process. The app allows users to select their current location to discover nearby restaurants and offers multiple ordering options, including delivery, takeaway, and dine-in reservations. Integrated features such as real-time order tracking, detailed restaurant menus, user reviews, and operational information to ensure a seamless and engaging user experience. Focused on intuitive design and efficient API integration for location services and order tracking.",
+
+          techTags: [
+            "Flutter",
+            "Push Notifications",
+            "Charts",
+            "GetX",
+            "Firebase",
+            "Printing",
+          ],
+          features: [
+            "Browse the restaurant's digital menu with images and prices",
+            "Place orders for delivery, takeaway, or dine-in",
+            "Real-time order status tracking",
+            "Push notifications for order updates and offers",
+            "Order history and quick re-order feature",
+            "Table reservation for dine-in customers",
+          ],
+          screenshots: [
+            "assets/projects/scantoeat/screenshot1.jpg",
+            "assets/projects/scantoeat/screenshot2.jpg",
+            "assets/projects/scantoeat/screenshot3.jpg",
+            "assets/projects/scantoeat/screenshot4.jpg",
+            "assets/projects/scantoeat/screenshot5.jpg",
+            "assets/projects/scantoeat/screenshot6.jpg",
+          ],
+        },
+        hrflowpro: {
+          title: "HrFlowPro",
+          description:
+            "A comprehensive HR management application designed to simplify workforce operations. It enables employees to check in and out, submit leave requests, track attendance, and access important HR documents. With a clean UI and real-time features, the app improves communication between employees and HR, enhancing efficiency and transparency in day-to-day HR processes.",
+          techTags: ["Flutter", "Firebase", "Provider", "Geolocator"],
+          features: [
+            "Employee check-in and check-out",
+            "Leave request submission and approval",
+            "Attendance tracking and reports",
+            "Access to HR documents and policies",
+            "Real-time notifications for updates",
+            "Employee profile and records management",
+            "Improved communication between HR and staff",
+          ],
+
+          screenshots: [
+            "assets/projects/hrflowpro/screenshot1.jpg",
+            "assets/projects/hrflowpro/screenshot2.jpg",
+            "assets/projects/hrflowpro/screenshot3.jpg",
+            "assets/projects/hrflowpro/screenshot4.jpg",
+          ],
+        },
+        aircraftstatus: {
+          title: "Aircraft Status",
+          description:
+            "A specialized aviation training application designed for qualified engineers to access summarized references for ATA chapters across multiple aircraft types, including A320, A330, B737, and B777. The app includes step-by-step guidance for warnings and message resets, quick circuit breaker (CB) locations, and concise summaries of ATA chapters. It is built for training purposes only, with a clear disclaimer to always refer to official Airbus and Boeing manuals for real-world operations.",
+          techTags: ["Flutter", "Firebase", "GetX"],
+          features: [
+            "Summarized references to ATA chapters for A320, A330, B737, and B777",
+            "Step-by-step guidance for warnings and message resets",
+            "Quick access to circuit breaker (CB) locations",
+            "Concise summaries of critical aircraft systems",
+            "User-friendly interface for efficient learning",
+            "Designed specifically for training purposes",
+            "Clear disclaimer to refer to official Airbus and Boeing manuals",
+          ],
+
+          screenshots: [
+            "assets/projects/aircraftstatus/screenshot1.jpg",
+            "assets/projects/aircraftstatus/screenshot2.jpg",
+            "assets/projects/aircraftstatus/screenshot3.jpg",
+            "assets/projects/aircraftstatus/screenshot4.jpg",
+            "assets/projects/aircraftstatus/screenshot5.jpg",
+          ],
+        },
+        cockpit: {
+          title: "Aircraft Cockpit",
+          description:
+            "A comprehensive aviation training application designed to provide detailed insights into the cockpits of various aircraft models, including Airbus A320 and Boeing B737. The app allows users to explore cockpit layouts, controls, and unique functionalities to enhance understanding of aircraft systems. Future updates will expand coverage to include Airbus A350, A330, A380, and Boeing B777 and B787. It serves as an interactive learning resource for aviation students and enthusiasts, focusing on an engaging and informative user experience.",
+          techTags: ["Flutter", "Hive", "Notifications", "Cubit", "Calendar"],
+          features: [
+            "Detailed cockpit layouts for Airbus A320 and Boeing B737",
+            "Interactive exploration of cockpit controls and systems",
+            "Educational insights into aircraft functionalities",
+            "Designed for aviation students and enthusiasts",
+            "Planned updates for Airbus A350, A330, A380 and Boeing B777, B787",
+            "User-friendly and visually engaging interface",
+            "Focus on interactive and informative learning experience",
+          ],
+          screenshots: [
+            "assets/projects/cockpit/screenshot1.jpg",
+            "assets/projects/cockpit/screenshot2.jpg",
+            "assets/projects/cockpit/screenshot3.jpg",
+            "assets/projects/cockpit/screenshot4.jpg",
+            "assets/projects/cockpit/screenshot5.jpg",
+            "assets/projects/cockpit/screenshot6.jpg",
+
+          ],
+        },
+      };
+
+      function openModal(projectId) {
+        const project = projects[projectId];
+        const modal = document.getElementById("projectModal");
+
+        // Populate modal content
+        document.getElementById("modalTitle").textContent = project.title;
+        document.getElementById("modalDescription").textContent =
+          project.description;
+
+        // Populate tech tags
+        const techTagsContainer = document.getElementById("modalTechTags");
+        techTagsContainer.innerHTML = "";
+        project.techTags.forEach((tech) => {
+          const tag = document.createElement("span");
+          tag.className = "tech-tag";
+          tag.textContent = tech;
+          techTagsContainer.appendChild(tag);
+        });
+
+        // Populate features
+        const featuresList = document.getElementById("modalFeatures");
+        featuresList.innerHTML = "";
+        project.features.forEach((feature) => {
+          const li = document.createElement("li");
+          li.textContent = feature;
+          featuresList.appendChild(li);
+        });
+
+        // Populate screenshots
+        const gallery = document.getElementById("screenshotGallery");
+        gallery.innerHTML = "";
+        project.screenshots.forEach((screenshot) => {
+          const img = document.createElement("img");
+          img.src = screenshot;
+          img.alt = "Project Screenshot";
+          img.className = "screenshot";
+          gallery.appendChild(img);
+        });
+
+        modal.style.display = "block";
+      }
+
+      function closeModal() {
+        document.getElementById("projectModal").style.display = "none";
+      }
+
+      // Close modal when clicking outside of it
+      window.onclick = function (event) {
+        const modal = document.getElementById("projectModal");
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
+
+      // Handle form submission
+      document
+        .querySelector(".contact-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Thank you for your message! I'll get back to you soon.");
+          this.reset();
+        });
+
+      // Add smooth scrolling for any anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
